@@ -56,6 +56,7 @@ function moveEnemy(car) {
         if(enemy.y >= 1500){
             enemy.y = -600;
             enemy.style.left = Math.floor(Math.random() * 300) + "px";
+            enemy.style.backgroundColor = randomColor();
         }
         enemy.y += (player.speed);
         enemy.style.top = enemy.y + "px";
@@ -73,8 +74,9 @@ function isCollide(a,b){
 
 function start() {
     startScreen.classList.add("hide");
-    gameArea.classList.remove("hide");
+    // gameArea.classList.remove("hide");
     score.classList.remove("hide");
+    gameArea.innerHTML = "";
 
     player.start=true;
     player.score=0;
@@ -88,29 +90,27 @@ function start() {
         gameArea.appendChild(div);
     }
 
+    window.requestAnimationFrame(playGame);
+
     // creating my car
     let car = document.createElement("div"); // <div></div>
     car.innerText = "Car"; // <div>Car</div>
     car.setAttribute("class", "car"); // <div class="car">Car</div>
+    gameArea.appendChild(car);
+    player.x = car.offsetLeft;
+    player.y = car.offsetTop;
 
     // Creating the enemies 
     for(let x = 0; x <= 5; x++){
         let div = document.createElement("div");
         div.classList.add("enemy");
+        div.innerHTML = (x+1);
         div.y = ((x+1)*600) * -1;
         div.style.top = div.y + "px";
         div.style.left = Math.floor(Math.random() * 750) + "px";
-        div.style.backgroundColor = "red";
+        div.style.backgroundColor = randomColor();
         gameArea.appendChild(div);
     }
-
-    gameArea.appendChild(car);
-    player.x = car.offsetLeft;
-    player.y = car.offsetTop;
-
-
-    window.requestAnimationFrame(playGame);
-
 }
 
 function playGame() {
@@ -147,4 +147,14 @@ function endGame() {
     score.innerHTML = "Game Over <br> Your Score is " + player.score;
     startScreen.classList.remove("hide");
     startScreen.innerText = "Click here to play again";
+}
+
+function randomColor() {
+    function a() {
+        let hex = Math.floor(Math.random()*256).toString(16);
+        console.log(hex);
+        return ("0"+String(hex)).substr(-2);
+    }
+    return "#"+a()+a()+a();
+    
 }
