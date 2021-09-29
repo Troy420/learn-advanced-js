@@ -25,7 +25,5 @@ array.forEach((element) => {
     console.log((element));
 });
 
-// To look at the properties of document
-console.dir(document);
-console.log(document.documentElement.innerHTML);
+
 
